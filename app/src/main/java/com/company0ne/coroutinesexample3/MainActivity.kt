@@ -14,19 +14,14 @@ class MainActivity : AppCompatActivity() {
             printFollowers()
         }
     }
-    private suspend fun printFollowers(){
-       // var fbFollowers = 0
-        //var instaFollowers = 0
-        val fb = CoroutineScope(Dispatchers.IO).async {
-           getFbFollowers()
+    private suspend fun printFollowers() {
+        
+        CoroutineScope(Dispatchers.IO).launch {
+            var fb = async {  getFbFollowers()}
+            var insta = async {  getInstaFollowers()}
+            Log.d("TAG", "Fb - ${fb.await()}, Insta - ${insta.await()}" )
         }
-        val insta = CoroutineScope(Dispatchers.IO).async {
-          getInstaFollowers()
-        }
-
-        Log.d("TAG","Fb - ${fb.await()}, Insta - ${insta.await()}")
     }
-
    private suspend fun getFbFollowers():Int{
         delay(1000)
         return 54
